@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-import models
 import data.dict as dict
 from torch.autograd import Variable
 

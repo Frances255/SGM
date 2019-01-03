@@ -1,6 +1,7 @@
 import torch
 import data.dict as dict
 
+
 class Beam(object):
     def __init__(self, size, n_best=1, cuda=True):
 

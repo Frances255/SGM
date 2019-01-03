@@ -5,7 +5,6 @@ from torch.autograd import Variable
 import data.dict as dict
 import models
 
-import numpy as np
 
 class seq2seq(nn.Module):
 
