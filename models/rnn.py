@@ -129,7 +129,6 @@ class rnn_decoder(nn.Module):
                 outputs += [output]
                 attns += [attn_weights]
             outputs = torch.stack(outputs)
-            attns = torch.stack(attns)
             return outputs, state
         else:
             outputs, state, attns = [], init_state, []
@@ -158,7 +157,6 @@ class rnn_decoder(nn.Module):
                 outputs += [output]
                 attns += [attn_weights]
             outputs = torch.stack(outputs)
-            attns = torch.stack(attns)
             return outputs, state
 
     def compute_score(self, hiddens):
