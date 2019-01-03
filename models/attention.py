@@ -28,4 +28,7 @@ class global_attention(nn.Module):
         c_t = torch.bmm(weights.unsqueeze(1), context).squeeze(1)
         # batch * 2 * hidden_size => batch * hidden_size
         output = self.tanh(self.linear_out(torch.cat([c_t, x], 1)))
+
+        #  output: batch * hidden_size
+        # weights: batch * time
         return output, weights
