@@ -1,9 +1,6 @@
 import torch
 import torch.nn as nn
-from torch.autograd import Variable
-from torch.nn.utils.rnn import pack_padded_sequence as pack
-from torch.nn.utils.rnn import pad_packed_sequence as unpack
-import data.dict as dict
+
 
 class global_attention(nn.Module):
 
@@ -16,11 +13,22 @@ class global_attention(nn.Module):
         self.activation = activation
 
     def forward(self, x, context):
-        gamma_h = self.linear_in(x).unsqueeze(2)    # batch * size * 1
+        # x: batch * hidden_size
+        # context: batch * time * hidden_size
+
+        # batch * hidden_size * 1
+        gamma_h = self.linear_in(x).unsqueeze(2)
         if self.activation == 'tanh':
             gamma_h = self.tanh(gamma_h)
-        weights = torch.bmm(context, gamma_h).squeeze(2)   # batch * time
-        weights = self.softmax(weights)   # batch * time
-        c_t = torch.bmm(weights.unsqueeze(1), context).squeeze(1) # batch * size
+        # batch * time * hidden_size  batch * hidden_size * 1 => batch * time * 1 => batch * time
+        weights = torch.bmm(context, gamma_h).squeeze(2)
+        # batch * time
+        weights = self.softmax(weights)
+        # batch * 1 * time  batch * time * hidden_size => batch * 1 * hidden_size => batch * hidden_size
+        c_t = torch.bmm(weights.unsqueeze(1), context).squeeze(1)
+        # batch * 2 * hidden_size => batch * hidden_size
         output = self.tanh(self.linear_out(torch.cat([c_t, x], 1)))
+
+        #  output: batch * hidden_size
+        # weights: batch * time
         return output, weights

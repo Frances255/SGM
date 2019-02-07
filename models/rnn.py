@@ -4,10 +4,7 @@ import torch.nn.functional as F
 from torch.autograd import Variable
 from torch.nn.utils.rnn import pack_padded_sequence as pack
 from torch.nn.utils.rnn import pad_packed_sequence as unpack
-import data.dict as dict
 import models
-
-import numpy as np
 
 
 class StackedLSTM(nn.Module):
@@ -132,7 +129,6 @@ class rnn_decoder(nn.Module):
                 outputs += [output]
                 attns += [attn_weights]
             outputs = torch.stack(outputs)
-            attns = torch.stack(attns)
             return outputs, state
         else:
             outputs, state, attns = [], init_state, []
@@ -161,7 +157,6 @@ class rnn_decoder(nn.Module):
                 outputs += [output]
                 attns += [attn_weights]
             outputs = torch.stack(outputs)
-            attns = torch.stack(attns)
             return outputs, state
 
     def compute_score(self, hiddens):

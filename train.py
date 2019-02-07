@@ -15,7 +15,6 @@ import argparse
 import time
 import json
 import collections
-import codecs
 
 
 #config
