@@ -1,24 +1,14 @@
-import torch
 import torch.nn as nn
-from torch.autograd import Variable
 import torch.utils.data
 import models
 import data.dataloader as dataloader
 import data.utils as utils
 import data.dict as dict
-from optims import Optim
-
-from optims import Optim
-import lr_scheduler as L
 
 import os
 import argparse
 import time
-import math
 import json
-import collections
-import codecs
-import numpy as np
 
 #config
 parser = argparse.ArgumentParser(description='train.py')
@@ -119,7 +109,7 @@ with open(opt.label_dict_file, 'r') as f:
     label_dict = json.load(f)
 
 
-def eval(epoch):
+def eval():
     model.eval()
     reference, candidate, source, alignments = [], [], [], []
     for raw_src, src, src_len, raw_tgt, tgt, tgt_len in testloader:
@@ -149,7 +139,6 @@ def eval(epoch):
             cands.append(cand)
         candidate = cands
 
-    score = {}
     result = utils.eval_metrics(reference, candidate, label_dict, log_path)
     logging_csv([result['hamming_loss'], result['micro_f1'], result['micro_precision'], result['micro_recall']])
     print('hamming_loss: %.8f | micro_f1: %.4f'

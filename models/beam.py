@@ -1,6 +1,7 @@
 import torch
 import data.dict as dict
 
+
 class Beam(object):
     def __init__(self, size, n_best=1, cuda=True):
 
@@ -93,7 +94,6 @@ class Beam(object):
             e = e.view(a, self.size, br // self.size, d)
             sentStates = e[:, :, idx]
             sentStates.data.copy_(sentStates.data.index_select(1, positions))
-
 
     def sortFinished(self, minimum=None):
         if minimum is not None:

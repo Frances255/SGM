@@ -5,7 +5,6 @@ from torch.autograd import Variable
 import data.dict as dict
 import models
 
-import numpy as np
 
 class seq2seq(nn.Module):
 
@@ -67,7 +66,6 @@ class seq2seq(nn.Module):
         #targets = tgt[1:]
 
         return sample_ids.t(), alignments.t()
-
 
     def beam_sample(self, src, src_len, beam_size = 1):
 
